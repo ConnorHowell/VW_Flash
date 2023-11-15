@@ -21,11 +21,6 @@ from udsoncan import configs
 from udsoncan import exceptions
 from udsoncan import services
 
-try:
-    from dashing import *
-except:
-    print("dashing module not loaded")
-
 # globals
 KG_TO_N = 9.80665
 TQ_CONSTANT = 16.3
@@ -143,10 +138,10 @@ class hsl_logger:
                         elif str(configuration["Calculate HP"]["Type"]).lower() == "accel":
                             self.activityLogger.debug("  Calculate HP: Accelerometer TQ")
                             self.calcHP = 2
-                            
+
                     if "Curb Weight" in configuration["Calculate HP"]:
                         self.curbWeight = float(configuration["Calculate HP"]["Curb Weight"]) * KG_TO_N
-                        
+
                     if "Tire Circumference" in configuration["Calculate HP"]:
                         self.tireCircumference = float(configuration["Calculate HP"]["Tire Circumference"]) * PI
 
@@ -184,7 +179,7 @@ class hsl_logger:
         self.activityLogger.info("Interactive mode: " + str(self.interactive))
         self.activityLogger.info("Display Gauges: " + str(self.displayGauges))
         self.activityLogger.info("Log Trigger: " + str(self.logTrigger))
-        
+
         if fps < 1:
             self.delay = 0.0
             self.activityLogger.info("Max frame rate: unlimited")
@@ -200,7 +195,7 @@ class hsl_logger:
             self.activityLogger.info("Calculate HP: Reported TQ")
         elif self.calcHP == 2:
             self.activityLogger.info("Calculate HP: Accelerometer TQ")
-            
+
         # open params file
         self.PARAMFILE = self.filePath + param_file
         self.activityLogger.info("Parameter file: " + self.PARAMFILE)
@@ -286,7 +281,7 @@ class hsl_logger:
 
         self.activityLogger.info("PID count: " + str(pid_counter))
         self.activityLogger.info("Assignment count: " + str(assignment_counter))
-        
+
         self.activityLogger.info("CSV Header for log files will be: " + self.csvHeader)
 
         # If we're only going to be writing to a single CSV file, create that file and put the header in it
@@ -459,7 +454,7 @@ class hsl_logger:
                                 value = self.logParams[assignmentPID]["Value"]
                                 compare = subEquation[comparePos]
                                 compareValue = float(subEquation[comparePos+1:].strip())
-                                
+
                                 if compare == ">":
                                     if value <= compareValue:
                                         subConditionsMet = False
@@ -622,7 +617,7 @@ class hsl_logger:
         for parameter in self.logParams:
             if results == "":
                 break
-            
+
             if self.logParams[parameter]["Virtual"]:
                 self.setPIDValue(parameter, self.logParams[parameter]["Value"])
             else:
@@ -707,7 +702,7 @@ class hsl_logger:
 
     def getParams22(self):
         self.activityLogger.debug("Getting values via 0x22")
-        
+
         parameterPosition = 0
         parameterString = "22"
         for parameter in self.logParams:
@@ -768,7 +763,7 @@ class hsl_logger:
     def setAssignmentValues(self):
         for assign in self.assignments:
             self.assignmentValues[assign] = self.logParams[self.assignments[assign]]["Value"]
-        
+
     def setPIDValue(self, parameter, raw):
         try:
             self.assignmentValues["x"] = raw
