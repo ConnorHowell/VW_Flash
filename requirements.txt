@@ -7,3 +7,4 @@ wxpython==4.1.1
 python-can
 pyyaml
 pyserial
+nicegui
