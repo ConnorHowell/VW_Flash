@@ -87,7 +87,7 @@ def get_dlls_from_registry():
             winreg.HKEY_LOCAL_MACHINE, r"Software\\PassThruSupport.04.04\\"
         )
     except:
-        logger.error("No J2534 DLLs found in HKLM PassThruSupport. Continuing anyway.")
+        logger.warning("No J2534 DLLs found in HKLM PassThruSupport. Continuing anyway.")
         return interfaces
 
     for i in range(winreg.QueryInfoKey(BaseKey)[0]):
@@ -203,7 +203,7 @@ class FlashPanel(wx.Panel):
             with open("gui_config.json", "r") as config_file:
                 self.options = json.load(config_file)
         except:
-            logger.critical("No config file present, creating one")
+            logger.warning("No config file present, creating one")
             self.options = {
                 "cal": "",
                 "flashpack": "",
@@ -506,7 +506,7 @@ class FlashPanel(wx.Panel):
 
         module = self.module_choice.GetSelection()
 
-        logger.critical("Selected: " + file_name)
+        logger.info("Selected: " + file_name)
 
         modal_response = wx.MessageDialog(
             None,
